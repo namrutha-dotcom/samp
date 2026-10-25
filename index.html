@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#a92f53">
+<title>For My Kanna ♡</title>
+
+<style>
+:root{--rose:#c54b70;--deep:#792743;--pink:#ffe8ee;--cream:#fffaf7;--ink:#56283a;--gold:#ffe2a6}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+button{font:inherit;cursor:pointer}
+.page{display:none;min-height:100svh;padding:90px 20px 80px;position:relative;overflow:hidden}
+.page.active{display:flex;align-items:center;justify-content:center;animation:enter .6s ease}
+.page-inner{width:min(100%,800px);text-align:center;position:relative;z-index:2}
+.hero{background:radial-gradient(circle at 50% 25%,#f9b9ca,#e986a5 45%,#a92f53 100%);color:#fffaf8}
+.hero:before,.hero:after{content:'♡';position:absolute;color:#ffffff30;font-size:clamp(180px,40vw,440px);line-height:1;pointer-events:none}
+.hero:before{top:2%;left:-8%}
+.hero:after{right:-8%;bottom:-6%}
+.eyebrow{font:700 11px Arial;letter-spacing:.24em;text-transform:uppercase}
+.hero h1{font-size:clamp(3.5rem,14vw,7rem);line-height:.9;margin:24px 0 18px;letter-spacing:-.06em}
+.hero h1 span{display:block;font-size:.28em;letter-spacing:.18em;margin-bottom:18px}
+.hero p{max-width:490px;margin:0 auto 26px;line-height:1.8;font-size:1.05rem;color:#fff1f4}
+.heart{color:#ffe3eb;font-size:1.6rem;animation:float 4s ease-in-out infinite}
+.kicker{font:700 11px Arial;letter-spacing:.2em;text-transform:uppercase;color:var(--rose)}
+h2{font-size:clamp(2.3rem,8vw,4.2rem);line-height:1.03;font-weight:400;margin:15px 0 20px;color:var(--deep)}
+.lead{max-width:570px;margin:0 auto 28px;line-height:1.9;color:#805565}
+.btn{border:0;border-radius:999px;background:var(--deep);color:white;padding:14px 23px;font:700 13px Arial;box-shadow:0 9px 24px #76223d26;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.light{background:#fff7f8;color:var(--deep);border:1px solid #f5c7d3}
+.btn-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:28px}
+.footer-note{font:11px Arial;letter-spacing:.12em;color:#8b3a57;margin-top:28px}
+.soft{background:linear-gradient(140deg,#fff9f5,#ffeaf0)}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.card{background:#fffdfc;border:1px solid #f6d3dc;border-radius:22px;padding:22px 15px;box-shadow:0 12px 30px #8c23400b}
+.card .emoji{font-size:2rem}
+.card h3{font-size:1.1rem;color:var(--deep);margin:12px 0 8px}
+.card p{font-size:.92rem;line-height:1.7;color:#815868;margin:0}
+.letter-paper{max-width:640px;margin:25px auto 0;padding:clamp(22px,5vw,42px);background:#fffefa;border:1px solid #f3d4c5;border-radius:6px 22px 6px 22px;box-shadow:0 16px 38px #79304a12;text-align:left;line-height:1.95;white-space:pre-line}
+.letter-paper p{margin:0 0 14px}
+.signature{color:var(--rose);font-size:1.25rem;font-style:italic}
+.envelope{width:160px;height:110px;margin:25px auto;background:#d85b7e;border-radius:10px;display:grid;place-items:center;font-size:3rem;box-shadow:0 12px 26px #b13b601f;transform:rotate(-3deg)}
+.gallery{max-width:600px;margin:25px auto;background:white;padding:14px;border-radius:24px;box-shadow:0 14px 35px #7e284012}
+.photo-frame{height:310px;border-radius:16px;background:linear-gradient(135deg,#ffe2ea,#f9c5d2);display:grid;place-items:center;overflow:hidden}
+.photo-frame img{width:100%;height:100%;object-fit:contain}
+.photo-placeholder{padding:25px;line-height:1.8;color:#a04c68}
+.photo-placeholder b{display:block;font-size:3rem}
+.photo-controls{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:14px}
+.round{border:1px solid #e9b7c5;background:#fff7f8;color:var(--deep);width:40px;height:40px;border-radius:50%;font-size:1.3rem}
+.upload{display:inline-block;margin-top:13px;color:var(--deep);font:700 12px Arial;border:1px dashed #d77b96;padding:11px 16px;border-radius:999px;cursor:pointer}
+.upload input{display:none}
+.cake{font-size:6rem;filter:drop-shadow(0 12px 8px #c04a6b25);margin:12px 0}
+.wish{font-size:1.15rem;color:var(--rose);font-style:italic;min-height:32px}
+.final{background:radial-gradient(circle at 50% 30%,#ffe4ec,#f4b6c7 55%,#d66a8b);color:var(--deep)}
+.final h2{font-size:clamp(2.8rem,10vw,5.5rem)}
+.big-heart{font-size:4rem;animation:beat 1.3s infinite}
+.float-heart{position:fixed;z-index:10;bottom:-40px;pointer-events:none;animation:rise linear forwards;color:#d65b7c}
+@keyframes rise{to{transform:translateY(-115vh) rotate(30deg);opacity:0}}
+@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes float{50%{transform:translateY(-9px) rotate(8deg)}}
+@keyframes beat{50%{transform:scale(1.12)}}
+
+/* Birthday calendar */
+.calendar-page{
+ background:radial-gradient(circle at top,#fff0f5,#ffd6e2 55%,#f6b3c8);
+}
+.calendar-card{
+ width:min(100%,480px);margin:24px auto;padding:25px;
+ background:#fffdfc;border:1px solid #f4c8d5;border-radius:28px;
+ box-shadow:0 20px 60px #9d31501a;
+}
+.calendar-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.calendar-top strong{font-size:1.45rem;color:var(--deep)}
+.calendar-heart{font-size:1.8rem}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.calendar-grid span{display:grid;place-items:center;min-height:37px;font-family:Arial,sans-serif;font-size:.9rem;border-radius:50%}
+.calendar-grid .weekday{font-size:.7rem;font-weight:bold;color:#b65b79;min-height:28px}
+.calendar-grid .birthday{
+ background:#c54b70;color:white;font-weight:bold;
+ box-shadow:0 4px 13px #c54b7050;position:relative;
+}
+.calendar-grid .birthday:after{content:'♥';position:absolute;bottom:-10px;font-size:9px;color:#c54b70}
+.countdown-title{font-size:1.15rem;color:var(--deep);margin:24px 0 13px}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.time-box{background:#fff0f4;border:1px solid #f6d4df;border-radius:15px;padding:12px 4px}
+.time-box strong{display:block;font:700 clamp(1.3rem,5vw,2rem) Arial;color:#a92f53}
+.time-box small{font:10px Arial;letter-spacing:.07em;color:#8c5365}
+.calendar-note{font-size:.86rem;color:#986477;line-height:1.7;margin:20px auto 0}
+.calendar-note b{color:#a92f53}
+#fireworksPage{
+ background:radial-gradient(ellipse at bottom,#28103f,#10091f 65%,#070510);
+ color:white;position:relative;
+}
+#fireworksCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.fireworks-content{z-index:2;position:relative;text-align:center;width:min(100%,800px)}
+.fireworks-content .sparkle{font-size:2rem;animation:float 2s infinite}
+.fireworks-content h1{
+ font-family:Georgia,serif;font-size:clamp(2.8rem,10vw,6.5rem);
+ line-height:1.05;margin:22px 0;color:#ffe3a6;
+ text-shadow:0 0 18px #ff5fbb80,0 0 35px #ffb3df60;
+}
+.fireworks-content p{font-size:1.15rem;color:#ffe8f2;line-height:1.8}
+.fireworks-content .btn{background:#fff0f6;color:#812746;margin-top:18px}
+@media(max-width:650px){
+ .page{padding:80px 16px 70px}
+ .card-grid{grid-template-columns:1fr}
+ .card{padding:18px}
+ .photo-frame{height:250px}
+ .lead{font-size:.96rem}
+ .calendar-card{padding:17px}
+ .calendar-grid{gap:4px}
+ .calendar-grid span{min-height:34px}
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" autoplay loop preload="auto">
+ <source src="vazhithunaiye.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1: CALENDAR AND COUNTDOWN -->
+<section class="page calendar-page active" id="calendarPage">
+ <div class="page-inner">
+  <div class="kicker">A special day is almost here ♡</div>
+  <h2>Save the date, Kanna!</h2>
+  <p class="lead">Un birthday innu konja nerathula vara pogudhu, ammu! ❤️ Unakkaga oru chinna surprise ready-ah irukku...</p>
+
+  <div class="calendar-card">
+   <div class="calendar-top">
+    <strong>October 2026</strong>
+    <span class="calendar-heart">💗</span>
+   </div>
+   <div class="calendar-grid" id="calendarGrid"></div>
+   <div class="countdown-title">Countdown to your special day ✨</div>
+   <div class="countdown">
+    <div class="time-box"><strong id="days">00</strong><small>DAYS</small></div>
+    <div class="time-box"><strong id="hours">00</strong><small>HOURS</small></div>
+    <div class="time-box"><strong id="minutes">00</strong><small>MINUTES</small></div>
+    <div class="time-box"><strong id="seconds">00</strong><small>SECONDS</small></div>
+   </div>
+   <p class="calendar-note" id="countdownNote">October 27, 2026 · 12:00 AM<br><b>Made with all my love, For you Ammu ❤️</b></p>
+  </div>
+ </div>
+</section>
+
+<!-- PAGE 2: SILENT FIREWORKS -->
+<section class="page" id="fireworksPage">
+ <canvas id="fireworksCanvas"></canvas>
+ <div class="fireworks-content">
+  <div class="sparkle">✨ 🎆 ✨</div>
+  <div class="eyebrow">Today is all about you</div>
+  <h1>HAPPY<br>BIRTHDAY<br>KANNA ♡</h1>
+  <p>En chella Ammu... ❤️<br>
+  Un birthday un alavukku azhaga irukkanum!<br>
+  Unna naan romba romba love panren. 🫂💋</p>
+  <button class="btn" onclick="openSurprise()">Open Your Surprise 💌</button>
+ </div>
+</section>
+
+<!-- ORIGINAL PAGE 1 -->
+<section class="page hero" id="p0">
+<div class="page-inner">
+<div class="heart">♡ &nbsp; ♡ &nbsp; ♡</div>
+<div class="eyebrow">A tiny little world made for ennavan</div>
+<h1><span>HAPPY BIRTHDAY,</span>KANNA ♡</h1>
+<p>Unakkaga mattum… konjam love, konjam memories, neraya kisses. Intha chinna surprise un smile-kaaga. Un face la chinna smile vanthaalum naa atha paathu happy aayiruven, ammu 💗</p>
+<button class="btn light" onclick="startMusic();nextPage()">Open your surprise ✨</button>
+<div class="footer-note" style="color:#fff1f4">MADE WITH ALL MY LOVE</div>
+</div>
+</section>
+
+<section class="page soft" id="p1">
+<div class="page-inner">
+<div class="kicker">A few things about you</div>
+<h2>Why you’re so special to me</h2>
+<p class="lead">Nee nee-ah irukkuradhu enakku romba special. ❤️</p>
+<div class="card-grid">
+<article class="card"><div class="emoji">👀</div><h3>Un Eyes</h3><p>Un eyes magnet nu nenaikiren ammu naan Un eyes-la tholanjitten… meendu vara enakku viruppame illa, ammu.</p></article>
+<article class="card"><div class="emoji">😊</div><h3>Un smile</h3><p>Un sirippu paatha en manasula irukkura ella kavalaigalum konjam neram marandhidum. Athai paathutte irukkanumnu thonum. Un smile evlo azhagu theriyuma!!!.</p></article>
+<article class="card"><div class="emoji">🎶</div><h3>Un voice</h3><p>Un kural Athu enakku oru azhagana comfort, kanna. Oru naal un voice kekkama poitaalum enakku thookame varaathu; nee pesuradhu enakku avlo pudikkum.</p></article>
+<article class="card"><div class="emoji">🫶</div><h3>Un care</h3><p>Chinna chinna vishayathula kooda nee en mela kaattura care enakku romba precious ammu. Naan atha notice pannuven.</p></article>
+<article class="card"><div class="emoji">💋</div><h3>Un Anbil Naan</h3><p>Un pakkathula irukkura andha chinna moments-um en favourite memories.</p></article>
+<article class="card"><div class="emoji">❤️</div><h3>Just you</h3><p>Nee nee-ah irukkurathu enakku romba pudikkum. Always.</p></article>
+</div>
+<div class="btn-row">
+<button class="btn light" onclick="prevPage()">← Back</button>
+<button class="btn" onclick="nextPage()">Next, kanna →</button>
+</div>
+</div>
+</section>
+
+<section class="page" id="p2">
+<div class="page-inner">
+<div class="kicker">Open when you're ready</div>
+<h2>Unakkaga oru Letter 💌</h2>
+<div class="envelope">💌</div>
+<div class="letter-paper">
+<p>En chella Kanna,Unakkana letter..❤️</p>
+<p>Happy birthday, Ennavane!</p>
+<p>Your eyes have a magnetic charm that keeps pulling me towards you. ❤️ Your smile makes my heart so happy, and whenever I hear your voice, I feel a kind of peace that I can’t explain. Your care, your love, and even our little conversations mean more to me than you could ever imagine. 🥹❤️
+
+I don’t think words will ever be enough to explain how deeply I love you, kanna. All I want is to see you happy, watch all your dreams come true, and see you succeed in everything you do. And honestly, I want to be one of the reasons behind that beautiful smile of yours. 😉
+
+Even on your hardest days, I want you to remember that you’re never alone because you have me by your side. I want to be the one who celebrates your happiness, comforts you when you’re down, and feels proud watching you turn your dreams into reality. ❤️🫂
+
+On your birthday, I wish you endless happiness, beautiful memories, and all the love your heart can hold. Keep smiling that adorable smile of yours, because honestly, kanna, <strong>your smile is my weakness, your voice is my favourite sound, and your heart is my favourite place to be.</strong> 😘❤️
+
+And one little confession, birthday boy… if I could ask for one gift for myself, it would be to steal a few extra hugs, a thousand kisses, and a lifetime of moments with you. So, are you ready to be loved a little extra by me today? 😉💋❤️</p>
+<p>Un kangal-la tholanjitten, kanna… meendu vara enakku viruppam illa. Unna innaikku mattum illa, ini vara ovvoru naalum innum konjam adhigama love pannanum nu thonudhu.</p>
+<p><strong>Happy Birthday Ammu . I love you so, so much. ❤️🫂</strong></p>
+<p class="signature">Unna romba love panra unnaval… unathu rasigai..💗</p>
+</div>
+<div class="btn-row">
+<button class="btn light" onclick="prevPage()">← Back</button>
+<button class="btn" onclick="nextPage()">Next, love →</button>
+</div>
+</div>
+</section>
+
+<section class="page soft" id="p3">
+<div class="page-inner">
+<div class="kicker">Our little memories</div>
+<h2>Save these moments 📸</h2>
+<p class="lead">Nammaloda favourite photos add pannikkalam. Unakku pudicha photos! Ovvoru photo-vum oru chinna story dhaane. 💗</p>
+<div class="gallery">
+<div class="photo-frame" id="photoFrame">
+<div class="photo-placeholder"><b>📷</b>Inga namma photos add pannalaam, kanna!<br><small>“Add photos” button-a press pannu</small></div>
+</div>
+<div class="photo-controls">
+<button class="round" onclick="movePhoto(-1)">‹</button>
+<span id="photoCount">0 / 0</span>
+<button class="round" onclick="movePhoto(1)">›</button>
+</div>
+<label class="upload">＋ Add photos<input type="file" id="photoInput" accept="image/*" multiple></label>
+</div>
+<div class="btn-row">
+<button class="btn light" onclick="prevPage()">← Back</button>
+<button class="btn" onclick="nextPage()">One more thing →</button>
+</div>
+</div>
+</section>
+
+<section class="page" id="p4">
+<div class="page-inner">
+<div class="kicker">Make a wish, birthday boy</div>
+<h2>Time for cake! 🎂</h2>
+<p class="lead">Kannai moodi oru wish kelu, kanna. Un wishes ellame nijamaaganum. ✨</p>
+<div class="cake" id="cake">🎂</div>
+<p class="wish" id="wishText">Un wish enna nu solla vendam… adhu nijamaaganum! ❤️</p>
+<button class="btn" onclick="blowCake()" id="cakeBtn">Blow the candles 🌬️</button>
+<div class="btn-row">
+<button class="btn light" onclick="prevPage()">← Back</button>
+<button class="btn" onclick="nextPage()">Final surprise 💗</button>
+</div>
+</div>
+</section>
+
+<section class="page final" id="p5">
+<div class="page-inner">
+<div class="big-heart">❤️</div>
+<div class="kicker" style="color:#8b2949">Always and forever</div>
+<h2>Happy Birthday,<br>En Kanna!</h2>
+<p class="lead" style="color:#74374d">Un life-la neraya santhosham, success, peace ellam irukkanum. Un dreams ellam nijamaaganum. Un smile-a eppovume lose pannadha. Unna love panra oruththi inga irukka… innikku mattum illa, eppovume. 🫂💋</p>
+<button class="btn" style="background:#fff8fa;color:#8b2949" onclick="sendHugs()">Send a thousand hugs 🫂</button>
+<p class="wish" id="hugText"></p>
+<div class="btn-row">
+<button class="btn light" onclick="prevPage()">← Read again</button>
+<button class="btn" onclick="goHome()">Start again ♡</button>
+</div>
+<div class="footer-note">MADE WITH LOVE, FOR YOU AMMU</div>
+</div>
+</section>
+
+<script>
+const pages = [...document.querySelectorAll('.page')];
+const calendarPage = document.getElementById('calendarPage');
+const fireworksPage = document.getElementById('fireworksPage');
+const audio = document.getElementById('bgMusic');
+
+let current = 0;
+let photos = [];
+let photoIndex = 0;
+let cakeBlown = false;
+let countdownFinished = false;
+let fireworksAnimation = null;
+let fireworksRunning = false;
+let particles = [];
+let rockets = [];
+let lastRocket = 0;
+
+// Birthday: October 27, 2026 at midnight in India (IST).
+const birthdayTime = new Date('2026-10-27T00:00:00+05:30').getTime();
+
+function startMusic() {
+    if (!audio) return;
+    if (audio.paused) audio.play().catch(() => {});
+}
+
+// Browser autoplay rules may require a tap first.
+startMusic();
+document.addEventListener('pointerdown', startMusic, { once: true });
+
+// Build a complete, correctly aligned October 2026 calendar.
+function renderCalendar() {
+    const grid = document.getElementById('calendarGrid');
+    const names = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+
+    names.forEach(name => {
+        const el = document.createElement('span');
+        el.className = 'weekday';
+        el.textContent = name;
+        grid.appendChild(el);
+    });
+
+    const firstDay = new Date(2026, 9, 1).getDay();
+    const daysInMonth = new Date(2026, 10, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+        grid.appendChild(document.createElement('span'));
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const el = document.createElement('span');
+        el.textContent = day;
+        if (day === 27) {
+            el.className = 'birthday';
+            el.title = 'Happy Birthday, Kanna!';
+        }
+        grid.appendChild(el);
+    }
+}
+renderCalendar();
+
+function showPage(i) {
+    if (i < 0 || i >= pages.length) return;
+
+    pages[current].classList.remove('active');
+    current = i;
+    pages[current].classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (pages[current].id === 'p5') makeHearts(18);
+    if (pages[current].id === 'fireworksPage') startFireworks();
+    else stopFireworks();
+}
+
+function nextPage() {
+    startMusic();
+    showPage(current + 1);
+}
+
+function prevPage() {
+    showPage(current - 1);
+}
+
+function goHome() {
+    showPage(pages.findIndex(page => page.id === 'p0'));
+}
+
+function openSurprise() {
+    stopFireworks();
+    startMusic();
+    showPage(pages.findIndex(page => page.id === 'p0'));
+}
+
+function updateCountdown() {
+    if (countdownFinished) return;
+
+    const remaining = birthdayTime - Date.now();
+
+    if (remaining <= 0) {
+        ['days','hours','minutes','seconds'].forEach(id => {
+            document.getElementById(id).textContent = '00';
+        });
+
+        document.getElementById('countdownNote').innerHTML =
+            'It’s your special day, Kanna! ❤️';
+
+        countdownFinished = true;
+        showPage(pages.findIndex(page => page.id === 'fireworksPage'));
+        return;
+    }
+
+    const days = Math.floor(remaining / 86400000);
+    const hours = Math.floor((remaining % 86400000) / 3600000);
+    const minutes = Math.floor((remaining % 3600000) / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+
+    document.getElementById('days').textContent = String(days).padStart(2,'0');
+    document.getElementById('hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2,'0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Silent colorful fireworks canvas animation.
+function resizeFireworksCanvas() {
+    const canvas = document.getElementById('fireworksCanvas');
+    if (!canvas) return;
+
+    const rect = fireworksPage.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+    canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function launchRocket() {
+    const w = fireworksPage.clientWidth;
+    const h = fireworksPage.clientHeight;
+
+    rockets.push({
+        x: w * (0.12 + Math.random() * 0.76),
+        y: h + 5,
+        targetY: h * (0.12 + Math.random() * 0.48),
+        speed: 3.5 + Math.random() * 2.5,
+        hue: Math.floor(Math.random() * 360)
+    });
+}
+
+function explode(rocket) {
+    const amount = 55 + Math.floor(Math.random() * 35);
+
+    for (let i = 0; i < amount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1 + Math.random() * 4.5;
+
+        particles.push({
+            x: rocket.x,
+            y: rocket.y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 55 + Math.random() * 35,
+            maxLife: 90,
+            hue: rocket.hue + Math.random() * 45,
+            size: 1.5 + Math.random() * 2.5
+        });
+    }
+}
+
+function drawFireworks() {
+    if (!fireworksRunning) return;
+
+    const canvas = document.getElementById('fireworksCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = fireworksPage.clientWidth;
+    const h = fireworksPage.clientHeight;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const now = performance.now();
+    if (now - lastRocket > 360) {
+        launchRocket();
+        if (Math.random() > 0.45) launchRocket();
+        lastRocket = now;
+    }
+
+    rockets = rockets.filter(rocket => {
+        rocket.y -= rocket.speed;
+
+        ctx.beginPath();
+        ctx.arc(rocket.x, rocket.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `hsl(${rocket.hue},100%,75%)`;
+        ctx.fill();
+
+        if (rocket.y <= rocket.targetY) {
+            explode(rocket);
+            return false;
+        }
+        return true;
+    });
+
+    particles = particles.filter(p => p.life > 0);
+
+    particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.035;
+        p.vx *= 0.99;
+        p.vy *= 0.99;
+        p.life--;
+
+        const alpha = Math.max(0, p.life / p.maxLife);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue},100%,70%,${alpha})`;
+        ctx.fill();
+    });
+
+    fireworksAnimation = requestAnimationFrame(drawFireworks);
+}
+
+function startFireworks() {
+    if (fireworksRunning) return;
+    fireworksRunning = true;
+    resizeFireworksCanvas();
+    lastRocket = 0;
+    drawFireworks();
+}
+
+function stopFireworks() {
+    fireworksRunning = false;
+    if (fireworksAnimation !== null) {
+        cancelAnimationFrame(fireworksAnimation);
+        fireworksAnimation = null;
+    }
+}
+
+window.addEventListener('resize', () => {
+    if (fireworksRunning) resizeFireworksCanvas();
+});
+
+function makeHearts(n = 8) {
+    for (let i = 0; i < n; i++) {
+        const h = document.createElement('span');
+        h.className = 'float-heart';
+        h.textContent = ['♡', '♥', '💕', '✦'][Math.floor(Math.random() * 4)];
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.fontSize = (16 + Math.random() * 25) + 'px';
+        h.style.animationDuration = (4 + Math.random() * 4) + 's';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 8500);
+    }
+}
+
+function blowCake() {
+    cakeBlown = !cakeBlown;
+
+    document.getElementById('cake').textContent = cakeBlown ? '🎉' : '🎂';
+    document.getElementById('wishText').textContent = cakeBlown
+        ? 'Wish made! Happy birthday, en chellame! Un wishes ellame nijamaaganum. ❤️'
+        : 'Innum oru wish kekkariya, kanna? ✨';
+
+    document.getElementById('cakeBtn').textContent = cakeBlown
+        ? 'One more wish 🎂'
+        : 'Blow the candles 🌬️';
+
+    if (cakeBlown) makeHearts(24);
+}
+
+function sendHugs() {
+    document.getElementById('hugText').textContent =
+        'Ummmmmaaaah! Romba tight-ah oru hug and neraya kisses unakku! 🫂💋❤️ I LOVE YOU AMMU ... HAPPY BIRTHDAY';
+
+    makeHearts(35);
+}
+
+function renderPhotos() {
+    const frame = document.getElementById('photoFrame');
+    frame.innerHTML = '';
+
+    if (!photos.length) {
+        frame.innerHTML =
+            '<div class="photo-placeholder"><b>📷</b>Inga namma photos add pannalaam, kanna!<br><small>“Add photos” button-a press pannu</small></div>';
+        document.getElementById('photoCount').textContent = '0 / 0';
+        return;
+    }
+
+    const img = document.createElement('img');
+    img.src = photos[photoIndex];
+    img.alt = 'Our memory';
+    frame.appendChild(img);
+
+    document.getElementById('photoCount').textContent =
+        (photoIndex + 1) + ' / ' + photos.length;
+}
+
+function movePhoto(d) {
+    if (!photos.length) return;
+    photoIndex = (photoIndex + d + photos.length) % photos.length;
+    renderPhotos();
+}
+
+document.getElementById('photoInput').addEventListener('change', e => {
+    photos.forEach(url => URL.revokeObjectURL(url));
+
+    photos = [...e.target.files]
+        .filter(file => file.type.startsWith('image/'))
+        .slice(0, 15)
+        .map(file => URL.createObjectURL(file));
+
+    photoIndex = 0;
+    renderPhotos();
+});
+
+setInterval(() => {
+    if (Math.random() > 0.55) makeHearts(1);
+}, 1800);
+</script>
+</body>
+</html>
